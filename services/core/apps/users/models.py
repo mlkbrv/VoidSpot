@@ -2,6 +2,7 @@ from django.core.validators import validate_email
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
+import uuid
 
 from services.core.apps.users.validators import validate_mobile, validate_name
 
@@ -29,6 +30,7 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(email,password,**extra_fields)
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(_('email address'), unique=True, validators=[validate_email])
     phone_number = models.CharField(_('phone number'), max_length=30, blank=True, null=True, unique=True,validators=[validate_mobile])
 
