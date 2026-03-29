@@ -54,3 +54,11 @@ class ChangePasswordView(generics.UpdateAPIView):
         user.save()
 
         return Response({'status': 'OK'}, status=status.HTTP_200_OK)
+
+
+class ProfileUpdateView(generics.UpdateAPIView):
+    serializer_class = UserUpdateSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_object(self):
+        return self.request.user
