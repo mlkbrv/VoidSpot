@@ -11,6 +11,9 @@ class UserShortSerializer(serializers.ModelSerializer):
             'id',
             'email',
             'full_name',
+            'phone_number',
+            'profile_photo',
+            'background_photo'
         ]
         read_only_fields = [
             'id',
@@ -48,6 +51,20 @@ class UserProfileSerializer(serializers.ModelSerializer):
 class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True, validators=[validate_password])
+
+class UserUpdateSerializer(serializers.ModelSerializer):
+    profile_photo = serializers.ImageField(required=False)
+    background_photo = serializers.ImageField(required=False)
+
+    class Meta:
+        model = User
+        fields = [
+            'first_name',
+            'last_name',
+            'phone_number',
+            'profile_photo',
+            'background_photo',
+        ]
 
 class UserFullSerializer(serializers.ModelSerializer):
     class Meta:

@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 import uuid
-
+from django.core.validators import FileExtensionValidator
 from services.core.apps.users.validators import validate_mobile, validate_name
 
 
@@ -36,6 +36,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     first_name = models.CharField(_('first name'), max_length=30, blank=True,validators=[validate_name])
     last_name = models.CharField(_('last name'), max_length=30, blank=True,validators=[validate_name])
+
+    profile_photo = models.ImageField(_('profile photo'), upload_to='profile_photos/', null=True, blank=True,validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png'])])
+    background_photo = models.ImageField(_('background photo'), upload_to='background_photos/', null=True, blank=True,validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png'])])
 
     is_staff = models.BooleanField(_('staff status'), default=False)
     is_active = models.BooleanField(_('active'), default=True)
