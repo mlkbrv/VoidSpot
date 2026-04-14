@@ -1,11 +1,12 @@
 from django.contrib.auth import get_user_model
+from django.core.validators import FileExtensionValidator
 from django.db import models
 import uuid
 
 user = get_user_model()
 
 class Media(models.Model):
-    media = models.FileField(upload_to='posts/%Y/%m/%d/',null=True,blank=True)
+    file = models.FileField(upload_to='posts/%Y/%m/%d/',null=True,blank=True,validators=FileExtensionValidator(allowed_extensions=['jpg','jpeg','png','mp4','webp']))
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
 class Post(models.Model):
